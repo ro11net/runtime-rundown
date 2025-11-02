@@ -14,10 +14,11 @@ services:
 
   flux-app:
     build: .
+    # image: ghcr.io/ro11net/runtime-rundown:latest
     ports:
       - "8080:8080"
     environment:
-      SECURITY_LEVEL: "MEDIUM"
+      SECURITY_LEVEL: "LOW"
       MESSAGE: "Hello from Flux Training!"
       DB_HOST: postgres
       DB_PORT: "5432"
