@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "flux-training-app.name" -}}
+{{- define "runtime-rundown.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "flux-training-app.fullname" -}}
+{{- define "runtime-rundown.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -24,16 +24,16 @@ Create a default fully qualified app name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "flux-training-app.chart" -}}
+{{- define "runtime-rundown.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "flux-training-app.labels" -}}
-helm.sh/chart: {{ include "flux-training-app.chart" . }}
-{{ include "flux-training-app.selectorLabels" . }}
+{{- define "runtime-rundown.labels" -}}
+helm.sh/chart: {{ include "runtime-rundown.chart" . }}
+{{ include "runtime-rundown.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,17 +43,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "flux-training-app.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "flux-training-app.name" . }}
+{{- define "runtime-rundown.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "runtime-rundown.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "flux-training-app.serviceAccountName" -}}
+{{- define "runtime-rundown.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "flux-training-app.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "runtime-rundown.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
@@ -62,18 +62,18 @@ Create the name of the service account to use
 {{/*
 Create a default fully qualified postgresql name.
 */}}
-{{- define "flux-training-app.postgresql.fullname" -}}
-{{- $name := default "postgresql" .Values.postgresql.nameOverride -}}
+{{- define "runtime-rundown.postgresql.fullname" -}}
+{{- $name := default "postgresql" .Values.app.database.host -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Get the PostgreSQL secret name
 */}}
-{{- define "flux-training-app.postgresql.secretName" -}}
-{{- if .Values.postgresql.auth.existingSecret -}}
-    {{- .Values.postgresql.auth.existingSecret -}}
+{{- define "runtime-rundown.postgresql.secretName" -}}
+{{- if .Values.app.externalDatabase.enabled -}}
+    {{- .Values.app.externalDatabase.existingSecret -}}
 {{- else -}}
-    {{- include "flux-training-app.postgresql.fullname" . -}}
+    {{- include "runtime-rundown.postgresql.fullname" . -}}
 {{- end -}}
 {{- end -}}
