@@ -3,6 +3,26 @@ entries:
   runtime-rundown:
   - apiVersion: v2
     appVersion: 0.4.0
+    created: "2025-11-02T19:33:37.799403061Z"
+    description: A Helm chart for the Flux Training Application
+    digest: 64cacff1c08f8f501a76ff0536db07954c111345b83cccc2315b1dff7cf83a40
+    home: https://github.com/ro11net/runtime-rundown
+    keywords:
+    - flux
+    - training
+    - golang
+    maintainers:
+    - email: c.rolland@protonmail.com
+      name: ro11net
+    name: runtime-rundown
+    sources:
+    - https://github.com/ro11net/runtime-rundown
+    type: application
+    urls:
+    - https://github.com/ro11net/runtime-rundown/releases/download/runtime-rundown-0.4.2/runtime-rundown-0.4.2.tgz
+    version: 0.4.2
+  - apiVersion: v2
+    appVersion: 0.4.0
     created: "2025-11-02T19:23:51.740700112Z"
     description: A Helm chart for the Flux Training Application
     digest: dd42dd5ec61be6c8e2fb537a82f80fbf501f255d1e7ad8e31b824116c5d6db78
@@ -286,4 +306,4 @@ entries:
     urls:
     - https://github.com/ro11net/runtime-rundown/releases/download/runtime-rundown-0.1.0/runtime-rundown-0.1.0.tgz
     version: 0.1.0
-generated: "2025-11-02T19:23:51.740802505Z"
+generated: "2025-11-02T19:33:37.799525258Z"
