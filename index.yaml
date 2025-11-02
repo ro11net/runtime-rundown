@@ -26,4 +26,30 @@ entries:
     urls:
     - https://github.com/ro11net/runtime-rundown/releases/download/flux-training-app-0.1.0/flux-training-app-0.1.0.tgz
     version: 0.1.0
-generated: "2025-11-02T01:40:24.317188508Z"
+  runtime-rundown:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2025-11-02T01:42:44.135967672Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.24
+    description: A Helm chart for the Flux Training Application
+    digest: 0249cef0baeedb2f3ddc648f4818b7efa99caefd2c69a9a47927868452a6bd6e
+    home: https://github.com/ro11net/runtime-rundown
+    keywords:
+    - flux
+    - training
+    - golang
+    maintainers:
+    - email: c.rolland@protonmail.com
+      name: ro11net
+    name: runtime-rundown
+    sources:
+    - https://github.com/ro11net/runtime-rundown
+    type: application
+    urls:
+    - https://github.com/ro11net/runtime-rundown/releases/download/runtime-rundown-0.1.0/runtime-rundown-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-11-02T01:42:44.135981868Z"
