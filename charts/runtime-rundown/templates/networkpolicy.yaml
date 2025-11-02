@@ -2,13 +2,13 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ include "flux-training-app.fullname" . }}
+  name: {{ include "runtime-rundown.fullname" . }}
   labels:
-    {{- include "flux-training-app.labels" . | nindent 4 }}
+    {{- include "runtime-rundown.labels" . | nindent 4 }}
 spec:
   podSelector:
     matchLabels:
-      {{- include "flux-training-app.selectorLabels" . | nindent 6 }}
+      {{- include "runtime-rundown.selectorLabels" . | nindent 6 }}
   policyTypes:
     {{- toYaml .Values.networkPolicy.policyTypes | nindent 4 }}
   {{- with .Values.networkPolicy.ingress }}
