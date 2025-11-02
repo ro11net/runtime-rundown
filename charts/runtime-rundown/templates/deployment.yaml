@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "flux-training-app.fullname" . }}
+  name: {{ include "runtime-rundown.fullname" . }}
   labels:
-    {{- include "flux-training-app.labels" . | nindent 4 }}
+    {{- include "runtime-rundown.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "flux-training-app.selectorLabels" . | nindent 6 }}
+      {{- include "runtime-rundown.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -19,7 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "flux-training-app.labels" . | nindent 8 }}
+        {{- include "runtime-rundown.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -28,7 +28,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "flux-training-app.serviceAccountName" . }}
+      serviceAccountName: {{ include "runtime-rundown.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- with .Values.initContainers }}
@@ -41,6 +41,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/app/runtime-rundown"]
           ports:
             - name: http
               containerPort: 8080
@@ -83,17 +84,17 @@ spec:
             {{- else }}
             # Internal PostgreSQL database configuration
             - name: DB_HOST
-              value: {{ include "flux-training-app.postgresql.fullname" . | quote }}
+              value: {{ include "runtime-rundown.postgresql.fullname" . | quote }}
             - name: DB_PORT
               value: "5432"
             - name: DB_NAME
-              value: {{ .Values.postgresql.auth.database | quote }}
+              value: {{ .Values.app.database.database | quote }}
             - name: DB_USER
-              value: {{ .Values.postgresql.auth.username | quote }}
+              value: {{ .Values.app.database.username | quote }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "flux-training-app.postgresql.secretName" . }}
+                  name: {{ include "runtime-rundown.postgresql.secretName" . }}
                   key: password
             {{- end }}
             

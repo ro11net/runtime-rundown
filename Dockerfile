@@ -3,7 +3,7 @@ FROM golang:1.21-alpine AS builder
 
 WORKDIR /app
 
-# Copy go mod files (we'll create these next)
+# Copy go mod files
 COPY go.mod go.sum ./
 
 # Download dependencies
@@ -21,13 +21,24 @@ FROM alpine:latest
 # Install ca-certificates for HTTPS
 RUN apk --no-cache add ca-certificates
 
-WORKDIR /root/
+# Create non-root user to match Helm chart security context
+RUN addgroup -g 10001 -S appuser && \
+    adduser -u 10001 -S appuser -G appuser
+
+# Create necessary directories and set permissions
+RUN mkdir -p /app && \
+    chown -R appuser:appuser /app
+
+WORKDIR /app
 
 # Copy the binary from builder
-COPY --from=builder /app/flux-training-app .
+COPY --from=builder --chown=appuser:appuser /app/flux-training-app /app/flux-training-app
+
+# Switch to non-root user
+USER 10001:10001
 
 # Expose port 8080
 EXPOSE 8080
 
-# Run the application
-CMD ["./flux-training-app"]
+# Use ENTRYPOINT instead of CMD for better compatibility
+ENTRYPOINT ["/app/flux-training-app"]
