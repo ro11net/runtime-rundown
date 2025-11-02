@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "flux-training-app.fullname" . }}
+  name: {{ include "runtime-rundown.fullname" . }}
   labels:
-    {{- include "flux-training-app.labels" . | nindent 4 }}
+    {{- include "runtime-rundown.labels" . | nindent 4 }}
   {{- with .Values.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -16,4 +16,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "flux-training-app.selectorLabels" . | nindent 4 }}
+    {{- include "runtime-rundown.selectorLabels" . | nindent 4 }}
+    app: runtime-rundown
