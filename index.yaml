@@ -1,31 +1,5 @@
 apiVersion: v1
 entries:
-  flux-training-app:
-  - apiVersion: v2
-    appVersion: 1.0.0
-    created: "2025-11-02T01:40:24.317165405Z"
-    dependencies:
-    - condition: postgresql.enabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 13.2.24
-    description: A Helm chart for the Flux Training Application
-    digest: c9588b5b9a76ecb5272ba05e128e1986bef96b648d38eec52346e2523c39eea8
-    home: https://github.com/yourorg/flux-training-app
-    keywords:
-    - flux
-    - training
-    - golang
-    maintainers:
-    - email: training@example.com
-      name: Training Team
-    name: flux-training-app
-    sources:
-    - https://github.com/yourorg/flux-training-app
-    type: application
-    urls:
-    - https://github.com/ro11net/runtime-rundown/releases/download/flux-training-app-0.1.0/flux-training-app-0.1.0.tgz
-    version: 0.1.0
   runtime-rundown:
   - apiVersion: v2
     appVersion: 0.1.0
