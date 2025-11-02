@@ -7,9 +7,10 @@ on:
 
 jobs:
   release:
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
+    permissions:
+      contents: write        # for chart-releaser (releases + gh-pages)
+      packages: write        # for pushing to GHCR with GITHUB_TOKEN
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,10 +19,35 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
 
+      # --- GitHub Releases + gh-pages (existing) ---
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Push to OCI (GHCR) ---
+      # Adjust this if your chart dir isn't charts/runtime-rundown
+      - name: Extract chart metadata
+        id: chartmeta
+        run: |
+          CHART_DIR="charts/runtime-rundown"
+          NAME=$(grep -E '^name:' -m1 "$CHART_DIR/Chart.yaml"    | awk '{print $2}')
+          VERSION=$(grep -E '^version:' -m1 "$CHART_DIR/Chart.yaml" | awk '{print $2}')
+          echo "dir=$CHART_DIR"       >> "$GITHUB_OUTPUT"
+          echo "name=$NAME"           >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION"     >> "$GITHUB_OUTPUT"
+
+      - name: Chart | Push (OCI to GHCR)
+        uses: appany/helm-oci-chart-releaser@v0.5.0
+        with:
+          name: ${{ steps.chartmeta.outputs.name }}
+          repository: ${{ github.repository_owner }}   # e.g., your org/user
+          tag: ${{ steps.chartmeta.outputs.version }}  # from Chart.yaml
+          path: ${{ steps.chartmeta.outputs.dir }}     # charts/runtime-rundown
+          registry: ghcr.io
+          registry_username: ${{ github.actor }}
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
+          update_dependencies: 'true'
