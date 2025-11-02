@@ -2,9 +2,9 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ include "flux-training-app.fullname" . }}
+  name: {{ include "runtime-rundown.fullname" . }}
   labels:
-    {{- include "flux-training-app.labels" . | nindent 4 }}
+    {{- include "runtime-rundown.labels" . | nindent 4 }}
 spec:
   {{- if .Values.podDisruptionBudget.minAvailable }}
   minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
@@ -14,5 +14,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "flux-training-app.selectorLabels" . | nindent 6 }}
+      {{- include "runtime-rundown.selectorLabels" . | nindent 6 }}
 {{- end }}
