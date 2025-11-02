@@ -1,0 +1,72 @@
+# Development environment values
+replicaCount: 1
+
+app:
+  env:
+    SECURITY_LEVEL: "LOW"
+    MESSAGE: "Development Environment - Flux Training"
+
+# Use internal PostgreSQL for development
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: "dev-postgres"
+    username: "devuser"
+    password: "devpass"
+    database: "devdb"
+  primary:
+    persistence:
+      enabled: false  # No persistence in dev for quick iteration
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+
+# Relaxed security for development
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false  # Allow writes in dev for debugging
+  runAsNonRoot: true
+  runAsUser: 10001
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "50m"
+  limits:
+    memory: "128Mi"
+    cpu: "100m"
+
+# Disable network policies in dev for easier debugging
+networkPolicy:
+  enabled: false
+
+# Simple ingress for dev
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: flux-training.dev.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+# No autoscaling in dev
+autoscaling:
+  enabled: false
+
+# No PDB in dev
+podDisruptionBudget:
+  enabled: false

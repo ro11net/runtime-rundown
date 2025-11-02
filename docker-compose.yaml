@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    networks:
+      - flux-network
+
+  flux-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SECURITY_LEVEL: "MEDIUM"
+      MESSAGE: "Hello from Flux Training!"
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: testdb
+    depends_on:
+      - postgres
+    networks:
+      - flux-network
+
+networks:
+  flux-network:
+    driver: bridge
