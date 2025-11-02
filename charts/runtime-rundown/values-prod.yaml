@@ -130,7 +130,7 @@ affinity:
             - key: app.kubernetes.io/name
               operator: In
               values:
-                - flux-training-app
+                - runtime-rundown
         topologyKey: kubernetes.io/hostname
 
 # Priority class for production workloads
