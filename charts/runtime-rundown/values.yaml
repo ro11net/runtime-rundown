@@ -2,10 +2,10 @@
 replicaCount: 1
 
 image:
-  repository: runtime-rundown
+  repository: ghcr.io/ro11net/runtime-rundown
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.1.0"
+  tag: "0.1.0"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -43,7 +43,7 @@ postgresql:
     database: "fluxdb"
   primary:
     persistence:
-      enabled: true
+      enabled: false
       size: 1Gi
     resources:
       requests:
