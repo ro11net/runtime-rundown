@@ -51,9 +51,9 @@ spec:
           env:
             # Application environment variables from values
             - name: SECURITY_LEVEL
-              value: {{ .Values.app.env.SECURITY_LEVEL | quote }}
+              value: {{ .Values.app.securityLevel | quote }}
             - name: MESSAGE
-              value: {{ .Values.app.env.MESSAGE | quote }}
+              value: {{ .Values.app.message | quote }}
             
             # Database configuration
             {{- if .Values.app.externalDatabase.enabled }}

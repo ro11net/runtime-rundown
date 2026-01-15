@@ -12,6 +12,11 @@ fullnameOverride: ""
 
 # Application configuration
 app:
+  # App configuration
+  securityLevel: "LOW"
+  message: "Welcome to Runtime Training!"
+
+  # Use an external database
   externalDatabase:
     enabled: false
     existingSecret: "prod-postgres-credentials"
@@ -21,10 +26,6 @@ app:
       database: "db_name"
       username: "db_user"
       password: "db_password"
-  # Environment variables for the application
-  env:
-    SECURITY_LEVEL: "LOW"
-    MESSAGE: "Welcome to Flux Training!"
   
   # Database configuration
   database:
