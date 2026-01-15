@@ -22,8 +22,8 @@
 {{- end }}
 
 2. Application Configuration:
-   - Security Level: {{ .Values.app.env.SECURITY_LEVEL }}
-   - Message: {{ .Values.app.env.MESSAGE }}
+   - Security Level: {{ .Values.app.securityLevel }}
+   - Message: {{ .Values.app.message }}
    
 3. Database Configuration:
 {{- if .Values.app.externalDatabase.enabled }}
